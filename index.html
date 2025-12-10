@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redes y Comunicaciones - Demian Myliuev</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+/* 1. THE SETUP */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #121212;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+  margin: 0;
+  min-height: 100vh;
+  padding: 20px 0;
+  place-items: center;
+}
+
+.slide-container {
+  align-items: center;
+  background-color: #0d0d0d;
+  background-image: radial-gradient(circle at 100% 0%, rgba(57, 255, 20, 0.05) 0%, transparent 25%), radial-gradient(circle at 0% 100%, rgba(57, 255, 20, 0.05) 0%, transparent 25%);
+  border-radius: 8px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  height: 720px;
+  justify-content: center;
+  overflow: hidden;
+  padding: 60px;
+  position: relative;
+  width: 1280px;
+}
+
+/* 1.1 BACKGROUND STYLING - Tech Grid Overlay */
+.slide-container::before {
+  content: '';
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.slide-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* 2. CONSISTENT TYPOGRAPHY */
+
+/* Headings Font */
+.slide-container h1,
+.slide-container h2,
+.slide-container h3,
+.slide-container h4 {
+  color: #ffffff;
+  font-family: 'Urbanist', sans-serif;
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Accent Color Text */
+.accent-text {
+  color: #39ff14; /* Neon Green */
+}
+
+/* Body Text Font */
+.slide-container p,
+.slide-container li,
+.slide-container .subtitle {
+  color: #cccccc;
+  font-family: 'Urbanist', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  font-size: 20px;
+}
+
+/* Consistent Font Sizes */
+.slide-container h1 {
+  font-size: 72px;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.slide-container .slide-title {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  text-align: left;
+  width: 100%;
+  border-bottom: 2px solid #333;
+  padding-bottom: 20px;
+}
+
+.slide-container h3 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #39ff14;
+}
+
+.slide-container .subtitle {
+  font-size: 24px;
+  font-weight: 300;
+  margin-top: 20px;
+  color: #a0a0a0;
+}
+
+.slide-container .content-area {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+  width: 100%;
+}
+
+/* 3. LAYOUT DEFINITIONS */
+
+/* Title Slide */
+.title-layout {
+  text-align: left;
+  width: 100%;
+  padding-left: 40px;
+  border-left: 8px solid #39ff14;
+}
+
+.title-layout h1 span {
+    display: block;
+    font-size: 0.5em;
+    color: #39ff14;
+    margin-bottom: 10px;
+    letter-spacing: 0.2em;
+}
+
+/* Two Column */
+.two-column {
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  width: 100%;
+  height: 100%;
+}
+
+.two-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.two-column li {
+  margin-bottom: 20px;
+  padding-left: 30px;
+  position: relative;
+}
+
+.two-column li::before {
+  content: '\f058'; /* FontAwesome check-circle */
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  color: #39ff14;
+  position: absolute;
+  left: 0;
+  top: 2px;
+}
+
+.two-column.tiled {
+    align-items: stretch;
+}
+
+.two-column.tiled > div {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 40px;
+    transition: transform 0.3s ease;
+}
+
+/* Image Wrapper */
+.image-wrapper {
+  border-radius: 12px;
+  height: 400px;
+  max-width: 100%;
+  overflow: hidden;
+  width: 100%;
+  border: 1px solid rgba(57, 255, 20, 0.3);
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.1);
+}
+
+.image-wrapper img {
+  height: 100%;
+  max-width: 100%;
+  object-fit: cover; /* Default cover */
+  width: 100%;
+}
+
+.two-column .image-wrapper img {
+    object-fit: cover; /* Changed to cover for aesthetics unless strict diagram */
+}
+
+/* Tiled Content (3 Columns) */
+.tiled-content {
+  align-items: stretch;
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.tile {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.tile:hover {
+    border-color: #39ff14;
+    transform: translateY(-5px);
+}
+
+.tile .icon {
+  color: #39ff14;
+  font-size: 48px;
+  margin-bottom: 25px;
+}
+
+.image-tile {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.image-tile .image-wrapper {
+    height: 250px;
+    border: none;
+    box-shadow: none;
+    background: #000;
+}
+
+.image-tile .image-wrapper img {
+    object-fit: cover;
+}
+
+.image-tile h3 {
+    margin: 0;
+    font-size: 24px;
+    text-align: center;
+}
+
+.image-tile p {
+    text-align: center;
+    font-size: 16px;
+}
+
+/* Bleed Image Layout */
+.slide-container.bleed-image-layout {
+  align-items: start;
+  display: grid;
+  gap: 0; /* No gap for bleed */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 0;
+}
+
+.slide-container.bleed-image-layout > .content-container {
+  padding: 80px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.slide-container.bleed-image-layout > .image-container {
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.slide-container.bleed-image-layout > .image-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #0d0d0d 0%, transparent 20%);
+}
+
+.slide-container.bleed-image-layout img.bleed-image-side {
+  display: block;
+  height: 100%;
+  max-height: 720px;
+  object-fit: cover;
+  width: 100%;
+}
+
+/* Q&A Layout */
+.qa-layout {
+  text-align: center;
+}
+.qa-layout h2 {
+    font-size: 120px;
+    color: #39ff14;
+    margin-bottom: 20px;
+}
+.qa-layout p {
+    font-size: 32px;
+}
+
+    </style>
+</head>
+<body>
+
+<!-- Slide 1: Title Slide -->
+<div class="slide-container" id="slide1">
+    <div class="title-layout">
+        <h1>
+            <span>2SMRA | SERVICIOS EN RED</span>
+            Redes y<br>Comunicaciones
+        </h1>
+        <p class="subtitle">Demian Myliuev</p>
+    </div>
+</div>
+
+<!-- Slide 2: 3.1 Introducción -->
+<div class="slide-container" id="slide2">
+    <h2 class="slide-title">3.1. Introducción a las Redes</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3>La Base de la Comunicación Digital</h3>
+                <ul>
+                    <li><strong>Objetivo:</strong> Interconectar dispositivos y personas para compartir recursos e información.</li>
+                    <li><strong>Impacto:</strong> Desde el correo electrónico hasta el acceso global a internet, las redes son invisibles pero esenciales.</li>
+                    <li><strong>Relevancia:</strong> Fundamental tanto en la vida cotidiana como en entornos profesionales críticos.</li>
+                </ul>
+            </div>
+            <div class="image-wrapper">
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/15978249631672216372" alt="Conexiones de red abstractas y comunicación global">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 3: 3.2 Tipos de redes -->
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">3.2. Tipos de Redes</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="image-tile">
+                <div class="image-wrapper">
+                    <img src="http://googleusercontent.com/image_collection/image_retrieval/11680806518297325470" alt="Diagrama de red LAN">
+                </div>
+                <h3>LAN</h3>
+                <p><strong>Local Area Network:</strong> Redes de alcance reducido, típicas de oficinas, hogares o edificios.</p>
+            </div>
+            <div class="image-tile">
+                <div class="image-wrapper">
+                    <img src="http://googleusercontent.com/image_collection/image_retrieval/6619702469628768843" alt="Diagrama de red MAN">
+                </div>
+                <h3>MAN</h3>
+                <p><strong>Metropolitan Area Network:</strong> Cobertura media, interconectando ciudades o grandes campus universitarios.</p>
+            </div>
+            <div class="image-tile">
+                <div class="image-wrapper">
+                    <img src="http://googleusercontent.com/image_collection/image_retrieval/6736590219374327738" alt="Diagrama de red WAN">
+                </div>
+                <h3>WAN</h3>
+                <p><strong>Wide Area Network:</strong> Alcance global (ej. Internet), conectando continentes y países enteros.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 4: 3.3 Servicios WAN -->
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title">3.3. Servicios de Redes WAN</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-laptop-code"></i></div>
+                <h3>Acceso Remoto</h3>
+                <p>Permite a los usuarios conectarse a los sistemas y recursos de la organización desde cualquier ubicación geográfica de forma segura.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-right-left"></i></div>
+                <h3>Intercambio de Datos</h3>
+                <p>Facilita la transferencia rápida y sincronizada de archivos críticos entre diferentes sedes o sucursales de una empresa.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-headset"></i></div>
+                <h3>Comunicación</h3>
+                <p>Soporta servicios avanzados como telefonía IP (VoIP), videoconferencias y servidores de correo electrónico corporativo.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 5: 3.4 Tipos de comunicaciones -->
+<div class="slide-container" id="slide5">
+    <h2 class="slide-title">3.4. Tipos de Comunicaciones</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-arrow-right"></i></div>
+                <h3>Simplex</h3>
+                <p>Comunicación unidireccional permanente.</p>
+                <p style="font-size: 16px; color: #888;">Ejemplo: Radio o Televisión broadcast.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-walkie-talkie"></i></div>
+                <h3>Half-Duplex</h3>
+                <p>Bidireccional, pero no simultánea. Uno habla, el otro escucha.</p>
+                <p style="font-size: 16px; color: #888;">Ejemplo: Walkie-Talkies.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-users-line"></i></div>
+                <h3>Full-Duplex</h3>
+                <p>Bidireccional y simultánea. Flujo constante en ambos sentidos.</p>
+                <p style="font-size: 16px; color: #888;">Ejemplo: Llamada telefónica o conversación real.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 6: 3.5 Protocolo PPP -->
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">3.5. Protocolo PPP (Point-to-Point)</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3>Definición</h3>
+                <p>Es un protocolo de nivel de enlace de datos utilizado para establecer una conexión directa entre dos nodos de red. Fue fundamental en la era de los módems telefónicos.</p>
+            </div>
+            <div>
+                <h3>Características Clave</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li><strong class="accent-text">Multiprotocolo:</strong> Soporta IP, IPv6, IPX, etc.</li>
+                    <li><strong class="accent-text">Seguridad:</strong> Incluye autenticación (PAP/CHAP).</li>
+                    <li><strong class="accent-text">Control:</strong> Gestión de enlace y compresión de datos.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 7: 3.6 & 3.7 Conmutación -->
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">3.6. y 3.7. Métodos de Conmutación</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3><i class="fa-solid fa-phone-volume"></i> Conmutación de Circuitos</h3>
+                <p>Se establece un <strong>canal físico dedicado</strong> entre emisor y receptor durante toda la sesión.</p>
+                <p><strong>Pros:</strong> Comunicación continua y estable.</p>
+                <p><strong>Contras:</strong> Ineficiente si hay silencios (ancho de banda reservado).</p>
+            </div>
+            <div>
+                <h3><i class="fa-solid fa-envelope"></i> Conmutación de Mensajes</h3>
+                <p>No hay canal dedicado. El mensaje completo salta de nodo a nodo ("Store and Forward").</p>
+                <p><strong>Pros:</strong> No requiere conexión permanente; mejor uso de línea.</p>
+                <p><strong>Contras:</strong> Retrasos si los archivos son muy grandes.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 8: 3.8 Tecnología ADSL y ATM -->
+<div class="slide-container bleed-image-layout" id="slide8">
+    <div class="content-container">
+        <h2 class="slide-title" style="margin-bottom: 20px;">3.8. ADSL y ATM</h2>
+        <div class="content-area" style="align-items: flex-start;">
+            <h3 style="margin-top: 0;">ADSL (Asymmetric Digital Subscriber Line)</h3>
+            <p>Revolucionó el acceso doméstico permitiendo banda ancha sobre par de cobre. Es <strong>asimétrica</strong>: prioriza la velocidad de descarga sobre la de subida.</p>
+            
+            <h3 style="margin-top: 20px;">ATM (Asynchronous Transfer Mode)</h3>
+            <p>Tecnología de backbone orientada a conexión. Transmite datos en <strong>celdas pequeñas de tamaño fijo</strong>, lo que garantiza alta eficiencia y baja latencia para voz y vídeo.</p>
+        </div>
+    </div>
+    <div class="image-container">
+        <img class="bleed-image-side" src="http://googleusercontent.com/image_collection/image_retrieval/3883271103221616997" alt="Cables de teléfono y módem ADSL tecnología antigua">
+    </div>
+</div>
+
+<!-- Slide 9: Cierre -->
+<div class="slide-container" id="slide9">
+    <div class="qa-layout">
+        <h2>FIN</h2>
+        <p>Las redes son la infraestructura invisible que sostiene nuestra vida digital moderna.</p>
+        <div style="margin-top: 50px; border-top: 1px solid #333; padding-top: 20px;">
+            <p style="font-size: 24px; color: #888;">¿Preguntas?</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
